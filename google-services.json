@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "261274418225",
+    "firebase_url": "https://bedandbread-f78bd.firebaseio.com",
+    "project_id": "bedandbread-f78bd",
+    "storage_bucket": "bedandbread-f78bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261274418225:android:eb3c7a3efe83a9e912a910",
+        "android_client_info": {
+          "package_name": "com.example.bedandbread"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261274418225-30d5g3iegv112qf9nfl0a9dmejouf0om.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bedandbread",
+            "certificate_hash": "71c178500b7016ecc6e3c628395c9f0a3744d266"
+          }
+        },
+        {
+          "client_id": "261274418225-igtgioj6n30vs675th3c6fhjg72ml8do.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP-_47cpjyddZHrQnRfJHELpXiYRTr_5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261274418225-igtgioj6n30vs675th3c6fhjg72ml8do.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,6 +21,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.example.bedandbread",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }
