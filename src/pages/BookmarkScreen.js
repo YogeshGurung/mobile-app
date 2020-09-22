@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { Searchbar, Text, Colors } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actions as bookmarkActions } from '../store/bookmarks';
+import { actions as listingActions } from '../store/listings';
 import { actions as viewActions } from '../store/view';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -41,7 +41,7 @@ const ListingsOrMessage = (props) => {
 }
 
 const HomeScreen = (props) => {
-    const { navigation, bookmarks, setMeta } = props;
+    const { navigation, listings, setMeta } = props;
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -54,12 +54,12 @@ const HomeScreen = (props) => {
     }, [navigation]);
 
     const [searchQuery, setSearchQuery] = React.useState('');
-    const [filteredListings, setListings] = React.useState(bookmarks);
+    const [filteredListings, setListings] = React.useState(listings);
 
     const onChangeSearch = query => setSearchQuery(query);
 
     React.useEffect(() => {
-        setListings(bookmarks.filter(({ owner, title, body }) =>
+        setListings(listings.filter(({ owner, title, body }) =>
             [owner, title, body]
                 .map(e => e.toLowerCase())
                 .some(
@@ -97,13 +97,13 @@ const HomeScreen = (props) => {
 };
 
 const stateMapper = (state) => {
-    const { bookmarks } = state
-    return { bookmarks }
+    const { listings } = state
+    return { listings: listings.filter(({ isFav}) => isFav) }
 };
 
 const actionsMapper = dispatch => (
     bindActionCreators({
-        ...bookmarkActions,
+        ...listingActions,
         ...viewActions
     }, dispatch)
 );
