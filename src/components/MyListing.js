@@ -16,7 +16,7 @@ dayjs.extend(relativeTime);
 
 const Listing = ({ item }) => {
 
-    const { title, body, owner, date, type, isFav } = item;
+    const { title, body, owner, date, type } = item;
 
     return (
         <Card style={{ marginBottom: 8 }}>
@@ -35,9 +35,8 @@ const Listing = ({ item }) => {
                 <Paragraph style={{ marginTop: 12 }}>{body}</Paragraph>
             </Card.Content>
             <Card.Actions>
-                <IconButton icon="phone" color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
-                <IconButton icon="message-text-outline" color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
-                <IconButton icon={isFav ? "bookmark" : "bookmark-outline"} color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
+                <IconButton icon="square-edit-outline" color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
+                <IconButton icon="trash-can-outline" color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
                 <IconButton icon="share-variant" color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
             </Card.Actions>
         </Card>
