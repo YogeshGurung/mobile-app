@@ -3,9 +3,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import AppHeader from "./components/AppHeader";
 import HomeScreen from "./pages/HomeScreen";
-import CreateListingScreen from "./pages/CreateListingScreen";
+import DemoScreen from "./pages/DemoScreen";
+import BottomTab from "./components/BottomTab";
 
 const Drawer = createDrawerNavigator();
+
+
 
 export default () => {
     const navigationRef = React.createRef();
@@ -16,7 +19,13 @@ export default () => {
             <NavigationContainer ref={navigationRef} >
                 <Drawer.Navigator initialRouteName="Home">
                     <Drawer.Screen name="Home" component={HomeScreen} />
-                    <Drawer.Screen name="Create Listing" component={CreateListingScreen} />
+                    <Drawer.Screen name="My Ads" component={DemoScreen} />
+                    <Drawer.Screen name="Favorite Ads" component={DemoScreen} />
+                    <Drawer.Screen name="Advanced Job Search" component={DemoScreen} />
+                    <Drawer.Screen name="Settings" component={DemoScreen} />
+                    <Drawer.Screen name="Terms &amp; Conditions" component={DemoScreen} />
+                    <Drawer.Screen name="Privacy Policy" component={DemoScreen} />
+                    <Drawer.Screen name="Logout" component={DemoScreen} />
                 </Drawer.Navigator>
             </NavigationContainer>
         </>
