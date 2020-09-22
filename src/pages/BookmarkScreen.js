@@ -12,8 +12,8 @@ import BottomTab from "../components/BottomTab";
 
 dayjs.extend(relativeTime);
 
-const ListingsScrollView = ({ listings }) => (<ScrollView style={{ marginBottom: 50 }}>
-    {listings.map((item) => <Listing item={item} key={item.id} />)}
+const ListingsScrollView = ({ listings, onListingUpdated }) => (<ScrollView style={{ marginBottom: 50 }}>
+    {listings.map((item) => <Listing item={item} key={item.id} onListingUpdated={onListingUpdated} />)}
 </ScrollView>);
 
 const ListingsOrMessage = (props) => {
@@ -40,8 +40,8 @@ const ListingsOrMessage = (props) => {
     return <ListingsScrollView {...props} />
 }
 
-const HomeScreen = (props) => {
-    const { navigation, listings, setMeta } = props;
+const BookmarkScreen = (props) => {
+    const { navigation, listings, setMeta, updateListing } = props;
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -58,8 +58,8 @@ const HomeScreen = (props) => {
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    React.useEffect(() => {
-        setListings(listings.filter(({ owner, title, body }) =>
+    const filterByQuery = (_listings) => {
+        return _listings.filter(item => item.isFav).filter(({ owner, title, body }) =>
             [owner, title, body]
                 .map(e => e.toLowerCase())
                 .some(
@@ -69,8 +69,17 @@ const HomeScreen = (props) => {
                             .toLowerCase()
                     )
                 )
-        ));
+        )
+    }
+
+    React.useEffect(() => {
+        setListings(filterByQuery(listings));
     }, [searchQuery]);
+
+    const onListingUpdated = (listing) => {
+        updateListing(listing);
+        setListings(filterByQuery(listings));
+    }
 
     return (
         <View style={{ display: "flex", alignItems: "center", flex: 1 }} {...props}>
@@ -86,7 +95,7 @@ const HomeScreen = (props) => {
             </View>
 
             <View style={{ padding: 12, width: "100%", flex: 1, flexGrow: 1, alignSelf: "stretch", marginBottom: 0 }}>
-                <ListingsOrMessage listings={filteredListings} query={searchQuery} />
+                <ListingsOrMessage listings={filteredListings} query={searchQuery} onListingUpdated={onListingUpdated} />
             </View>
 
             <View style={{ width: "100%", marginTop: 6 }}>
@@ -98,7 +107,7 @@ const HomeScreen = (props) => {
 
 const stateMapper = (state) => {
     const { listings } = state
-    return { listings: listings.filter(({ isFav}) => isFav) }
+    return { listings }
 };
 
 const actionsMapper = dispatch => (
@@ -108,4 +117,4 @@ const actionsMapper = dispatch => (
     }, dispatch)
 );
 
-export default connect(stateMapper, actionsMapper)(HomeScreen);
+export default connect(stateMapper, actionsMapper)(BookmarkScreen);

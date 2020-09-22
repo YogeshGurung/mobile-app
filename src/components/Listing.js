@@ -14,9 +14,16 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-const Listing = ({ item }) => {
+const Listing = ({ item, onListingUpdated }) => {
 
     const { title, body, owner, date, type, isFav } = item;
+
+    const onBookmarkToggled = () => {
+        if(onListingUpdated) {
+            item.isFav = !item.isFav;
+            onListingUpdated(item);
+        }
+    }
 
     return (
         <Card style={{ marginBottom: 8 }}>
@@ -37,7 +44,7 @@ const Listing = ({ item }) => {
             <Card.Actions>
                 <IconButton icon="phone" color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
                 <IconButton icon="message-text-outline" color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
-                <IconButton icon={isFav ? "bookmark" : "bookmark-outline"} color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
+                <IconButton icon={isFav ? "bookmark" : "bookmark-outline"} color={Colors.red500} size={20} animated={true} onPress={() => onBookmarkToggled()} />
                 <IconButton icon="share-variant" color={Colors.red500} size={20} animated={true} onPress={() => console.log('Pressed')} />
             </Card.Actions>
         </Card>

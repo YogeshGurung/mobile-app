@@ -15,12 +15,17 @@ const listingsReducer = (state = INITIAL_STATE, { type, payload}) => {
         case ACTION_TYPES.REMOVE_LISTING:
             return state.filter(ad => ad.id !== payload.id);
         case ACTION_TYPES.UPDATE_LISTING:
-            const _state = [...state];
-            const idx = _state.findIndex(ad => ad.id === payload.id);
+            const idx = state.findIndex(ad => ad.id === payload.id);
 
-            if(idx > -1) _state[idx] = payload;
+            if(idx > -1) {
+                return [               
+                    ...state.slice(0, idx),
+                    {...payload},
+                    ...state.slice(idx)
+                  ];
+            }
 
-            return _state;
+            return state;
         default:
             return state;
     }
@@ -30,6 +35,12 @@ export const actions = {
     addListing(ad) {
         return {
             type: ACTION_TYPES.ADD_LISTING,
+            payload: ad,
+        };
+    },
+    updateListing(ad) {
+        return {
+            type: ACTION_TYPES.UPDATE_LISTING,
             payload: ad,
         };
     }
