@@ -7,6 +7,14 @@ import { connect } from 'react-redux';
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
 const MenuDrawer = ({ navigation, view }) => {
+    React.useEffect(() => {
+        const unsubscribe = navigation.current.addListener('focus', (state) => {
+            console.log(state);
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+
     const toggleDrawer = () => navigation?.current?.dispatch(DrawerActions.toggleDrawer());
 
     return (<Appbar.Header>

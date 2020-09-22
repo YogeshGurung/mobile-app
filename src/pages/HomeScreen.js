@@ -12,16 +12,29 @@ import Listing from "../components/Listing"
 dayjs.extend(relativeTime);
 
 const HomeScreen = ({ navigation, route: { params }, listings, setMeta }) => {
-    const { title, content } = params || {};
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            setMeta({
+                title: "Bed & Bread",
+                subtitle: "Home"
+            })
+        });
+
+        return unsubscribe;
+    }, [navigation]);
 
     const [searchQuery, setSearchQuery] = React.useState('');
+    const [currentListings, setListings] = React.useState(listings);
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    setMeta({
-        title: "Bed & Bread",
-        subtitle: "Home"
-    })
+    React.useEffect(() => {
+        console.log(searchQuery);
+
+        setListings(listings.filter(({owner, title, body}) => 
+            [owner, title, body].map(e => e.toLowerCase()).some(e => e.includes(searchQuery.trim().toLowerCase()))
+        ));
+    }, [searchQuery]);
 
     return (
         <View style={{ padding: 12 }}>
@@ -35,7 +48,7 @@ const HomeScreen = ({ navigation, route: { params }, listings, setMeta }) => {
             <Text style={{ fontWeight: "bold", color: "#999", textTransform: "uppercase", letterSpacing: 0.3, marginBottom: 12 }}>Listings</Text>
 
             <ScrollView style={{ marginBottom: 100 }}>
-                {listings.map((item) => <Listing item={item} key={item.id} />)}
+                {currentListings.map((item) => <Listing item={item} key={item.id} />)}
             </ScrollView>
         </View>
     )

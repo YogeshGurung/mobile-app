@@ -5,32 +5,27 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actions as viewActions } from '../store/view';
 
-class CreateListingScreen extends Component {
-    constructor(props) {
-        super(props);
+const CreateListingScreen = ({ navigation, setMeta }) => {
 
-        this.state = {
-            setMeta: props.setMeta
-        }
-    }
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            setMeta({
+                title: "Bed & Bread",
+                subtitle: "Create Listing"
+            })
+        });
 
-    componentDidMount(props) {
-        this.state.setMeta({
-            title: "Bed & Bread",
-            subtitle: "Create Listing"
-        })
-    }
+        return unsubscribe;
+    }, [navigation]);
 
-    render() {
-        return (
-            <View>
-                <Text>Create an Ad</Text>
-                <Button
-                    title="Home"
-                />
-            </View>
-        );
-    }
+    return (
+        <View>
+            <Text>Create an Ad</Text>
+            <Button
+                title="Home"
+            />
+        </View>
+    );
 }
 
 const actionsMapper = dispatch => (
