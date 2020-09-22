@@ -47,8 +47,7 @@ const HomeScreen = (props) => {
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setMeta({
-                title: "Bed & Bread",
-                subtitle: "Home"
+                title: "Home"
             })
         });
 

@@ -10,8 +10,7 @@ const CreateListingScreen = ({ navigation, setMeta }) => {
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setMeta({
-                title: "Bed & Bread",
-                subtitle: "Create Listing"
+                title: "Create Listing"
             })
         });
 

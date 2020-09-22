@@ -46,8 +46,7 @@ const MyAdsScreen = (props) => {
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setMeta({
-                title: "Bed & Bread",
-                subtitle: "My Ads"
+                title: "My Ads"
             })
         });
 
