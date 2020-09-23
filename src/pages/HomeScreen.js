@@ -13,8 +13,8 @@ import { Dimensions } from 'react-native';
 
 dayjs.extend(relativeTime);
 
-const ListingsScrollView = ({ listings }) => (<ScrollView style={{ marginBottom: 50 }}>
-    {listings.map((item) => <Listing item={item} key={item.id} />)}
+const ListingsScrollView = ({ listings, onListingUpdated }) => (<ScrollView style={{ marginBottom: 50 }}>
+    {listings.map((item) => <Listing item={item} key={item.id} onListingUpdated={onListingUpdated} />)}
 </ScrollView>);
 
 const ListingsOrMessage = (props) => {
@@ -42,38 +42,46 @@ const ListingsOrMessage = (props) => {
 }
 
 const HomeScreen = (props) => {
-    const { navigation, listings, setMeta } = props;
-
-    React.useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            setMeta({
-                title: "Home"
-            })
-        });
-
-        return unsubscribe;
-    }, [navigation]);
-
+    const { navigation, listings, setMeta, updateListing } = props;
     const [searchQuery, setSearchQuery] = React.useState('');
     const [filteredListings, setListings] = React.useState(listings);
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    React.useEffect(() => {
-        setListings(listings.filter(({ owner, title, body }) =>
+    const filterByQuery = (_listings, _searchQuery) => {
+        return _listings.filter(({ owner, title, body }) =>
             [owner, title, body]
                 .map(e => e.toLowerCase())
                 .some(
                     e => e.includes(
-                        searchQuery
+                        _searchQuery
                             .trim()
                             .toLowerCase()
                     )
                 )
-        ));
+        )
+    }
+
+    React.useEffect(() => {
+        setListings(filterByQuery(listings, searchQuery));
     }, [searchQuery]);
 
-    const windowHeight = Dimensions.get('window').height;
+    const onListingUpdated = (listing) => {
+        updateListing(listing);
+        setListings(filterByQuery(listings, searchQuery));
+    }
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            setMeta({
+                title: "Home"
+            });
+
+            setListings(filterByQuery(listings, searchQuery))
+        });
+
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <View style={{ display: "flex", alignItems: "center", flex: 1 }} {...props}>
@@ -89,7 +97,7 @@ const HomeScreen = (props) => {
             </View>
 
             <View style={{ padding: 12, width: "100%", flex: 1, flexGrow: 1, alignSelf: "stretch", marginBottom: 0 }}>
-                <ListingsOrMessage listings={filteredListings} query={searchQuery} />
+                <ListingsOrMessage listings={filteredListings} query={searchQuery} onListingUpdated={onListingUpdated} />
             </View>
 
             <View style={{ width: "100%", marginTop: 6 }}>

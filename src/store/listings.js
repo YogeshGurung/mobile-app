@@ -1,6 +1,6 @@
 import { getListings } from "../services/listings"
 
-const INITIAL_STATE = getListings();
+const INITIAL_STATE = [...getListings(), ...getListings(4).map(e => ({...e, owner: "Yogesh Gurung"}))];
 
 export const ACTION_TYPES = {
     ADD_LISTING: "ADD_LISTING",
@@ -11,18 +11,16 @@ export const ACTION_TYPES = {
 const listingsReducer = (state = INITIAL_STATE, { type, payload}) => {
     switch (type) {
         case ACTION_TYPES.ADD_LISTING:
-            return [...state, payload];
+            return [...state, {...getListings(1).pop(), ...payload}];
         case ACTION_TYPES.REMOVE_LISTING:
             return state.filter(ad => ad.id !== payload.id);
         case ACTION_TYPES.UPDATE_LISTING:
+            const _state = [...state];
             const idx = state.findIndex(ad => ad.id === payload.id);
 
             if(idx > -1) {
-                return [               
-                    ...state.slice(0, idx),
-                    {...payload},
-                    ...state.slice(idx)
-                  ];
+                _state[idx] = payload;
+                return _state;
             }
 
             return state;

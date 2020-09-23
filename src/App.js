@@ -6,6 +6,7 @@ import HomeScreen from "./pages/HomeScreen";
 import DemoScreen from "./pages/DemoScreen";
 import MyAdsScreen from "./pages/MyAdsScreen";
 import BookmarkScreen from "./pages/BookmarkScreen";
+import CreateAdScreen from "./pages/CreateAdScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -21,6 +22,7 @@ export default () => {
                 <Drawer.Navigator initialRouteName="Home">
                     <Drawer.Screen name="Home" component={HomeScreen} />
                     <Drawer.Screen name="My Ads" component={MyAdsScreen} />
+                    <Drawer.Screen name="Create Ad" component={CreateAdScreen} />
                     <Drawer.Screen name="Favorite Ads" component={BookmarkScreen} />
                     <Drawer.Screen name="Advanced Job Search" component={DemoScreen} />
                     <Drawer.Screen name="Settings" component={DemoScreen} />

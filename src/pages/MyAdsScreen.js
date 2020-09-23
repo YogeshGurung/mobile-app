@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { Searchbar, Text, Colors } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actions as myAdsActions } from '../store/myads';
+import { actions as listingActions } from '../store/listings';
 import { actions as viewActions } from '../store/view';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -41,7 +41,8 @@ const ListingsOrMessage = (props) => {
 }
 
 const MyAdsScreen = (props) => {
-    const { navigation, myAds, setMeta } = props;
+    const { navigation, listings, setMeta } = props;
+    const myAds = listings;
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -97,13 +98,14 @@ const MyAdsScreen = (props) => {
 };
 
 const stateMapper = (state) => {
-    const { myAds } = state
-    return { myAds }
+    const { listings } = state
+    
+    return { listings: listings.filter(e => e.owner === "Yogesh Gurung") }
 };
 
 const actionsMapper = dispatch => (
     bindActionCreators({
-        ...myAdsActions,
+        ...listingActions,
         ...viewActions
     }, dispatch)
 );

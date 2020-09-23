@@ -42,17 +42,6 @@ const ListingsOrMessage = (props) => {
 
 const BookmarkScreen = (props) => {
     const { navigation, listings, setMeta, updateListing } = props;
-
-    React.useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            setMeta({
-                title: "Favorite Ads"
-            })
-        });
-
-        return unsubscribe;
-    }, [navigation]);
-
     const [searchQuery, setSearchQuery] = React.useState('');
     const [filteredListings, setListings] = React.useState(listings);
 
@@ -70,16 +59,31 @@ const BookmarkScreen = (props) => {
                     )
                 )
         )
-    }
-
-    React.useEffect(() => {
-        setListings(filterByQuery(listings));
-    }, [searchQuery]);
+    };
 
     const onListingUpdated = (listing) => {
         updateListing(listing);
         setListings(filterByQuery(listings));
     }
+
+    React.useEffect(() => {
+        setListings(filterByQuery(listings), searchQuery);
+    }, [searchQuery]);
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            setMeta({
+                title: "Favorite Ads"
+            });
+
+            console.log({ searchQuery });
+
+            setListings(filterByQuery(listings), searchQuery);
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+    
 
     return (
         <View style={{ display: "flex", alignItems: "center", flex: 1 }} {...props}>
